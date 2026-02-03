@@ -25,7 +25,7 @@ function buildTree(comments) {
   return result;
 }
 
-3. Reduse to Object 
+****3. Reduse to Object ****
 const result = orders.reduce((acc, order) => {
   acc[order.status] = (acc[order.status] || 0) + 1;
   return acc;
@@ -56,4 +56,18 @@ function App() {
     </div>
   );
 }
+**5. Stop the Infinite Loop**
+function UserProfile({ userId }) {
+const [user, setUser] = useState(null);
+const fetchUser = async () => {
+const res = await fetch(`/api/users/${userId}`);
+setUser(await res.json());
+};
+useEffect(() => {
+fetchUser();
+}, [fetchUser]); // ESLint demands fetchUser be here
+return <div>{user?.name}</div>;
+}
+
+
 
