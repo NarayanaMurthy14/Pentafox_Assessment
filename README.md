@@ -1,5 +1,5 @@
 # Pentafox_Assessment
-1.
+**1.Optimize the Waterfall**
 React &amp; JavaScript Assessment
 async function getUsers(userIds) {
   const requests = userIds.map(id =>
@@ -8,3 +8,7 @@ async function getUsers(userIds) {
 
   return Promise.all(requests);
 }
+
+**2.The Recursive Tree**
+
+
