@@ -1,0 +1,10 @@
+async function getPostWithAuthor(postId) {
+  const postRes = await fetch(`/posts/${postId}`);
+  const post = await postRes.json();
+  const userRes = await fetch(`/users/${post.authorId}`);
+  const user = await userRes.json();
+  return {
+    ...post,
+    author: user
+  };
+}
