@@ -56,18 +56,17 @@ function App() {
     </div>
   );
 }
+
 **5. Stop the Infinite Loop**
 function UserProfile({ userId }) {
-const [user, setUser] = useState(null);
-const fetchUser = async () => {
-const res = await fetch(`/api/users/${userId}`);
-setUser(await res.json());
-};
-useEffect(() => {
-fetchUser();
-}, [fetchUser]); // ESLint demands fetchUser be here
-return <div>{user?.name}</div>;
+  const [user, setUser] = useState(null);
+  const fetchUser = useCallback(async () => {
+    const res = await fetch(`/api/users/${userId}`);
+    setUser(await res.json());
+  }, [userId]);
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+  return <div>{user?.name}</div>;
 }
-
-
 
