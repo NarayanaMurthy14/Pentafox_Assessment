@@ -58,15 +58,77 @@ function App() {
 }
 
 **5. Stop the Infinite Loop**
-function UserProfile({ userId }) {
-  const [user, setUser] = useState(null);
-  const fetchUser = useCallback(async () => {
-    const res = await fetch(`/api/users/${userId}`);
-    setUser(await res.json());
-  }, [userId]);
+const fetchUser = useCallback(async () => {
+  const res = await fetch(`/api/users/${userId}`);
+  setUser(await res.json());
+}, [userId]);
+
+useEffect(() => {
+  fetchUser();
+}, [fetchUser]);
+
+6.Implement a Debounced Hook
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
-  return <div>{user?.name}</div>;
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debouncedValue;
 }
+
+
+7.Prevent the Race Condition
+
+useEffect(() => {
+  let ignore = false;
+
+  fetch(`/search?q=${query}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!ignore) {
+        setResults(data);
+      }
+    });
+  return () => {
+    ignore = true;
+  };
+}, [query]);
+
+8."Index as Key" Bug
+
+const [todos, setTodos] = useState([
+  { id: 1, text: "Walk dog" },
+  { id: 2, text: "Buy milk" }
+]);
+
+{todos.map(todo => (
+  <li key={todo.id}>
+    <input defaultValue={todo.text} />
+    <button onClick={() => removeTodo(todo.id)}>Delete</button>
+  </li>
+))}
+
+9.Component Optimization
+
+const items = useMemo(() => [{ id: 1, name: "A" }], []);
+
+10.Dependent Fetches
+
+async function getPostWithAuthor(postId) {
+  const postRes = await fetch(`/posts/${postId}`);
+  const post = await postRes.json();
+  const userRes = await fetch(`/users/${post.authorId}`);
+  const user = await userRes.json();
+  return {
+    ...post,
+    author: user
+  };
+}
+
 
