@@ -1,1 +1,8 @@
+const fetchUser = useCallback(async () => {
+  const res = await fetch(`/api/users/${userId}`);
+  setUser(await res.json());
+}, [userId]);
 
+useEffect(() => {
+  fetchUser();
+}, [fetchUser]);
