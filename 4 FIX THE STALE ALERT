@@ -1,0 +1,22 @@
+function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const darkModeRef = useRef(darkMode);
+  useEffect(() => {
+    darkModeRef.current = darkMode;
+  }, [darkMode]);
+  const handleStart = () => {
+    setTimeout(() => {
+      alert(`Dark Mode is: ${darkModeRef.current}`);
+    }, 5000);
+  };
+  return (
+    <div>
+      <input
+        type="checkbox"
+        checked={darkMode}
+        onChange={e => setDarkMode(e.target.checked)}
+      />
+      <button onClick={handleStart}>Start Timer</button>
+    </div>
+  );
+}
