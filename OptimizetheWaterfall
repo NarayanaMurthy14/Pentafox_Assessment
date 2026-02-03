@@ -1,4 +1,3 @@
-React &amp; JavaScript Assessment
 async function getUsers(userIds) {
   const requests = userIds.map(id =>
     fetch(`/users/${id}`).then(res => res.json())
