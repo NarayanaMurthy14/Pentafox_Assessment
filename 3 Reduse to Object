@@ -1,0 +1,4 @@
+const result = orders.reduce((acc, order) => {
+  acc[order.status] = (acc[order.status] || 0) + 1;
+  return acc;
+}, {});
